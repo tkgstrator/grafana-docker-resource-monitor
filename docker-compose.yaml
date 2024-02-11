@@ -1,0 +1,55 @@
+version: "3.9"
+
+services:
+  cadvisor:
+    container_name: cadvisor
+    image: gcr.io/cadvisor/cadvisor:latest
+    restart: always
+    volumes: 
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    privileged: true
+    devices: 
+      - /dev/kmsg
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    restart: always
+    volumes: 
+      - ./src/prometheus.yml:/etc/prometheus/prometheus.yml
+    privileged: true
+    depends_on:
+      - cadvisor
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    restart: always
+    environment:
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - DS_PROMETHEUS=prometheus
+    volumes: 
+      - grafana-data:/var/lib/grafana
+      - ./src/datasources.yml:/etc/grafana/provisioning/datasources/datasources.yml
+      - ./src/dashboard.json:/var/lib/grafana/dashboards/dashboard.json
+      - ./src/default.yaml:/etc/grafana/provisioning/dashboards/default.yaml
+    privileged: true
+    depends_on:
+      - prometheus
+
+  cloudflare_tunnel:
+    container_name: cloudflared_grafana
+    image: cloudflare/cloudflared
+    restart: always
+    command: tunnel run
+    depends_on:
+      - grafana
+    environment:
+      TUNNEL_TOKEN: $TUNNEL_TOKEN
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
+volumes:
+  grafana-data:
