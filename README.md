@@ -28,6 +28,10 @@ Launch!
 docker compose up -d
 ```
 
+If docker installed by `snap` instead of `apt`, launch is failed with the error of `Error response from daemon: error while creating mount source path '/var/lib/docker': mkdir /var/lib/docker: read-only file system`. In case, you have to change the volumes of cadvisor to `/var/snap/docker/common/var-lib-docker:/var/snap/docker/common/var-lib-docker` from `/var/lib/docker/:/var/lib/docker:ro`.
+
+Also, you can check which package manager you installed docker with the following command `which docker`.
+
 ### Cloudflare Tunnel
 
 Select the tunnel and set Public hostnames like below.
