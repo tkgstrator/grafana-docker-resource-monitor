@@ -38,3 +38,7 @@ Select the tunnel and set Public hostnames like below.
 - URL: `grafana:3000` // Do not change it
 
 Then you can see the visualized analytics on `https://YOUR_SUBDOMAIN.YOURDOMAIN` in the browser.
+
+## Known issues
+
+- Public dashboard is not available through cloudflared tunnel due to api return Internal Server Error 500.
