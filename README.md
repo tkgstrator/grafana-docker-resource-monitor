@@ -46,3 +46,9 @@ Then you can see the visualized analytics on `https://YOUR_SUBDOMAIN.YOURDOMAIN`
 ## Known issues
 
 - Public dashboard is not available through cloudflared tunnel due to api return Internal Server Error 500.
+
+## References
+
+- [Run Grafana Docker image](https://grafana.com/docs/grafana/latest/setup-grafana/installation/docker/)
+- [Configure a Grafana Docker image](https://grafana.com/docs/grafana/latest/setup-grafana/configure-docker/)
+- [Docker Container Monitoring with cAdvisor, Prometheus, and Grafana using Docker Compose](https://medium.com/@sohammohite/docker-container-monitoring-with-cadvisor-prometheus-and-grafana-using-docker-compose-b47ec78efbc)
